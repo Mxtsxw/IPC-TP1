@@ -1,6 +1,7 @@
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.time.LocalTime;
 
 public class ClientUDP {
     public static void main(String[] args) {
@@ -12,7 +13,7 @@ public class ClientUDP {
             byte[] sendData;
             byte[] receiveData = new byte[1024];
 
-            String message = "Demande d'heure";
+            String message = LocalTime.now().toString();
             sendData = message.getBytes();
 
             DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, serveurIP, serveurPort);
@@ -21,8 +22,8 @@ public class ClientUDP {
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
             socket.receive(receivePacket);
 
-            String heure = new String(receivePacket.getData());
-            System.out.println("Heure actuelle reçue du serveur : " + heure.trim());
+            String response = new String(receivePacket.getData());
+            System.out.println("Réponse du serveur : \n" + response);
 
             socket.close();
         } catch (Exception e) {
