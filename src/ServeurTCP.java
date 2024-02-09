@@ -22,26 +22,20 @@ public class ServeurTCP {
                 // Créer un flux d'entrée pour lire les demandes du client
                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-                String request = "";
-                try {
-                    request = in.readLine();
-                } catch (SocketException e) {
-                    clientSocket.close();
-                    System.out.println("Connexion interrompue");
+                String request;
+                while ((request = in.readLine()) != null) {
+                    if (request.equals("CLOSE")) {
+                        System.out.println("Connexion avec " + clientSocket.getInetAddress() + " terminée");
+                        break;
+                    }
+
+                    // Créer un flux de sortie vers le client
+                    PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+
+                    // Envoyer la réponse au client
+                    out.println(getResponse(request));
+                    out.flush();
                 }
-
-                // Si le client demande la fermeture de la connexion
-                if (request.equals("CLOSE")){
-                    clientSocket.close();
-                    break;
-                }
-
-                // Créer un flux de sortie vers le client
-                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-
-                // Envoyer l'heure actuelle au client
-                out.println("Heure actuelle du serveur : " + getResponse(request));
-                out.flush();
 
                 // Fermer la connexion avec le client
                 clientSocket.close();
