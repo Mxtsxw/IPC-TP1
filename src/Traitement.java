@@ -41,15 +41,6 @@ public class Traitement implements Runnable {
         }
     }
 
-    public String getResponse(String request){
-        return switch (request) {
-            case "DATE" -> String.valueOf(LocalDate.now());
-            case "HOUR" -> String.valueOf(LocalTime.now().getHour());
-            case "FULL" -> String.valueOf(LocalDateTime.now());
-            default -> "Requête inconnue";
-        };
-    }
-
     private void close() throws IOException {
         this.clientSocket.close();
     }
@@ -58,15 +49,9 @@ public class Traitement implements Runnable {
      * Méthode contenant toutes les instructions du serveur
      */
     private void handle() throws IOException {
-        String request;
-        while ((request = in.readLine()) != null) {
-            if (request.equals("CLOSE")) {
-                System.out.println("Connexion avec " + clientSocket.getInetAddress() + " terminée");
-                return;
-            }
-
+        while (in.readLine() != null) {
             // Envoyer la réponse au client
-            out.write((getResponse(request) + "\n").getBytes());
+            out.write("PONG\n".getBytes());
             out.flush();
         }
     }

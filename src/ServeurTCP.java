@@ -25,6 +25,5 @@ public class ServeurTCP {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 }

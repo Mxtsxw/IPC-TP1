@@ -11,22 +11,12 @@ public class ClientTCP {
 
             // Créer un flux de sortie pour envoyer des commandes au serveur
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-
             // Créer un flux d'entrée pour lire les données envoyées par le serveur
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             // Envoyer les commandes au serveur
-            out.println("DATE");
+            out.println("PING");
             System.out.println("Réponse du serveur : " + in.readLine());
-
-            out.println("HOUR");
-            System.out.println("Réponse du serveur : " + in.readLine());
-
-            out.println("FULL");
-            System.out.println("Réponse du serveur : " + in.readLine());
-
-            out.println("CLOSE");
-            System.out.println("Connexion fermée.");
 
             // Fermer la connexion avec le serveur
             socket.close();
