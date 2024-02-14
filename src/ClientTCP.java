@@ -7,7 +7,7 @@ import java.net.Socket;
 public class ClientTCP {
     public static void main(String[] args) {
         try {
-            Socket socket = new Socket("127.0.0.1", 1234);
+            Socket socket = new Socket("127.0.0.1", 8080);
 
             // Créer un flux de sortie pour envoyer des commandes au serveur
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
